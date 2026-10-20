@@ -12,7 +12,11 @@ from src.data_engine import DataEngine
 from src.nlp_engine import NLPEngine, BM25Retriever
 from src.deep_learning_engine import DeepLearningEngine
 from src.ltr_engine import LTREngine
-from src.config import DEFAULT_TOP_K_CANDIDATES, DEFAULT_DISPLAY_LIMIT
+from src.config import (
+    DEFAULT_TOP_K_CANDIDATES,
+    DEFAULT_DISPLAY_LIMIT,
+    LTR_BOOSTER_PATH
+)
 
 
 class SearchPipeline:
@@ -31,13 +35,19 @@ class SearchPipeline:
 
         self.ltr_engine = LTREngine()
 
-        # Check if model exists or train
-        search_logs = self.data_engine.generate_search_logs(
-            nlp_cleaner=self.nlp_engine,
-            deep_engine=self.deep_engine,
-            bm25_retriever=self.bm25_retriever
-        )
-        self.ltr_engine.train(search_logs)
+        # Load pre-trained booster directly to conserve memory on free cloud tiers
+        if LTR_BOOSTER_PATH.exists():
+            self.ltr_engine.train(None)
+        else:
+            search_logs = self.data_engine.generate_search_logs(
+                nlp_cleaner=self.nlp_engine,
+                deep_engine=self.deep_engine,
+                bm25_retriever=self.bm25_retriever
+            )
+            self.ltr_engine.train(search_logs)
+
+        import gc
+        gc.collect()
         print("[SearchPipeline] Initialization complete! Pipeline ready for real-time inference.")
 
     def search_and_rerank(

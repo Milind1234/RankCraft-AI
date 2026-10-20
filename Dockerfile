@@ -1,17 +1,17 @@
 # ==============================================================================
 # RankCraft-AI: Multi-Stage Search Re-Ranking & CTR Predictor
-# Optimized for 100% Free Deployment on Hugging Face Spaces & Render
+# Optimized for Ultra-Low Memory (<200MB) Free Deployment on Render & Cloud Hosts
 # ==============================================================================
 FROM python:3.11-slim
 
-# Install system dependencies including OpenMP runtime
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libgomp1 \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Set up non-root user (Required for Hugging Face Spaces Docker SDK)
+# Set up non-root user
 RUN useradd -m -u 1000 user
 ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH \
@@ -23,19 +23,13 @@ ENV HOME=/home/user \
 
 WORKDIR $HOME/app
 
-# Copy requirements and install python dependencies
+# Copy requirements and install lightweight dependencies
 COPY --chown=user:user requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Pre-download Sentence Transformer model to cache at build time for sub-3s boot
-RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')"
-
-# Copy application source code and data assets
+# Copy application source code, models, and precomputed embeddings
 COPY --chown=user:user . .
-
-# Set Hugging Face offline mode so it never pings remote hub at runtime
-ENV HF_HUB_OFFLINE=1
 
 # Expose default port
 EXPOSE 7860
