@@ -1,0 +1,12 @@
+torch==2.11.0
+sentence-transformers==6.1.0
+lightgbm==4.7.0
+scikit-learn==1.9.1
+pandas==3.0.6
+numpy==2.4.6
+rank-bm25==0.2.2
+fastapi==0.152.0
+uvicorn==0.54.0
+pydantic==2.14.1
+requests==2.34.2
+jinja2==3.1.6

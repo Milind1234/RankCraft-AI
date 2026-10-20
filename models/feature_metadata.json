@@ -1,0 +1,65 @@
+{
+  "category_stats": {
+    "Footwear & Athletics": {
+      "mean_price": 145.46808000000001,
+      "median_price": 146.8,
+      "std_price": 54.690880849837455,
+      "min_price": 45.13,
+      "max_price": 239.55
+    },
+    "Audio & Acoustics": {
+      "mean_price": 210.96169999999998,
+      "median_price": 206.915,
+      "std_price": 105.59697017220383,
+      "min_price": 35.31,
+      "max_price": 398.0
+    },
+    "Computing & Ergonomics": {
+      "mean_price": 288.04636111111114,
+      "median_price": 296.22,
+      "std_price": 150.93638038991202,
+      "min_price": 29.04,
+      "max_price": 546.68
+    },
+    "Office Furniture & Wellness": {
+      "mean_price": 419.9088541666667,
+      "median_price": 423.035,
+      "std_price": 239.8483030280696,
+      "min_price": 31.88,
+      "max_price": 842.6
+    },
+    "Apparel & Outdoor": {
+      "mean_price": 170.7455208333333,
+      "median_price": 168.305,
+      "std_price": 84.01537620203513,
+      "min_price": 22.58,
+      "max_price": 320.0
+    },
+    "Fitness Gear & Hydration": {
+      "mean_price": 233.648,
+      "median_price": 226.78500000000003,
+      "std_price": 122.01955006582307,
+      "min_price": 19.37,
+      "max_price": 449.52
+    }
+  },
+  "feature_names": [
+    "semantic_similarity",
+    "bm25_score",
+    "jaccard_overlap",
+    "brand_match",
+    "category_match",
+    "exact_query_in_title",
+    "price_normalized",
+    "price_diff_to_cat_mean",
+    "price_diff_to_cat_median",
+    "discount_pct",
+    "rating",
+    "log_review_count",
+    "historical_ctr",
+    "historical_cvr",
+    "is_prime_eligible",
+    "freshness_score",
+    "return_rate"
+  ]
+}

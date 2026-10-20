@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RankCraft-AI | E-Commerce Search Re-Ranking & CTR Predictor</title>
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="brand" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <div class="logo-badge">⚡</div>
+        <div class="brand-text">
+          <h1>RankCraft AI</h1>
+          <p><span class="pulse-dot"></span> Multi-Stage E-Commerce Re-Ranker Active</p>
+        </div>
+      </div>
+
+      <div class="stats-ticker">
+        <div class="ticker-item">
+          <span class="ticker-label">Catalog:</span>
+          <span class="ticker-value" id="ticker-catalog">2,060 items</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-label">NDCG@10 Lift:</span>
+          <span class="ticker-value highlight" id="ticker-lift">+77.7%</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-label">Latency:</span>
+          <span class="ticker-value" id="ticker-latency">&lt; 15ms</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-label">Model:</span>
+          <span class="ticker-value">LambdaMART + MiniLM</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="btn btn-secondary btn-sm" id="btn-metrics">
+          <span>📊</span> Benchmarks
+        </button>
+        <button class="btn btn-secondary btn-sm" id="btn-sandbox-nav">
+          <span>⚡</span> What-If Sandbox
+        </button>
+        <button class="btn btn-primary btn-sm" id="btn-resume">
+          <span>🎓</span> Resume &amp; System Design
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-wrapper">
+
+    <!-- Hero Search Section -->
+    <section class="hero-search-section">
+      <div class="hero-tag">
+        <span>🚀 4 Pillars in Action</span> • Data Science • NLP • Deep Learning • LambdaMART
+      </div>
+      <h2 class="hero-title">E-Commerce Search Query Re-Ranking &amp; CTR Predictor</h2>
+      <p class="hero-subtitle">
+        Keyword matching returns loose matches. RankCraft predicts purchase intent and re-orders items using deep semantic embeddings, price dynamics, and LambdaMART LTR.
+      </p>
+
+      <!-- Search Box -->
+      <div class="search-box-container">
+        <form id="search-form" class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input 
+            type="text" 
+            id="search-input" 
+            class="search-input" 
+            placeholder="Search catalog (e.g. lightweight running shoes with arch support)..." 
+            value="lightweight running shoes with arch support" 
+            autocomplete="off"
+            required
+          >
+          <button type="submit" class="btn btn-primary search-btn" id="search-submit-btn">
+            <span>Re-Rank</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Quick Query Pills -->
+      <div class="sample-queries">
+        <span class="sample-query-label">Try Query:</span>
+        <button class="query-pill" data-query="lightweight running shoes with arch support">👟 Running Shoes with Arch Support</button>
+        <button class="query-pill" data-query="noise cancelling headphones for travel">🎧 Noise Cancelling Headphones</button>
+        <button class="query-pill" data-query="wireless ergonomic keyboard for mac">⌨️ Ergonomic Mac Keyboard</button>
+        <button class="query-pill" data-query="waterproof trail running shoes under 120">🌧️ Trail Shoes &lt; $120</button>
+        <button class="query-pill" data-query="ergonomic mesh office chair lumbar support">🪑 Mesh Chair Lumbar</button>
+        <button class="query-pill typo-pill" data-query="nikke lighweight runing shoes with arch suport">🔤 Typo Test: "nikke runing"</button>
+      </div>
+    </section>
+
+    <!-- NLP Query Intelligence Inspector -->
+    <section class="nlp-inspector-card" id="nlp-inspector" style="display: none;">
+      <div class="nlp-col">
+        <span class="nlp-title">NLP Query Intelligence</span>
+        <div class="nlp-badges" id="nlp-badges-container">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+      <div class="nlp-col" style="text-align: right;">
+        <span class="nlp-title">Pipeline Latency</span>
+        <span id="latency-display" style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 700; color: var(--accent-cyan);">
+          -- ms
+        </span>
+      </div>
+    </section>
+
+    <!-- Controls & View Switcher -->
+    <section class="controls-bar">
+      <div class="view-tabs" role="tablist">
+        <button class="view-tab active" data-view="lambdamart" role="tab">
+          <span>🏆</span> RankCraft LambdaMART (LTR)
+        </button>
+        <button class="view-tab" data-view="split" role="tab">
+          <span>⚡</span> Side-by-Side Comparison
+        </button>
+        <button class="view-tab" data-view="semantic" role="tab">
+          <span>🧠</span> Semantic Search Only
+        </button>
+        <button class="view-tab" data-view="bm25" role="tab">
+          <span>🔍</span> BM25 Keyword Baseline
+        </button>
+      </div>
+
+      <div class="results-meta">
+        <span id="results-count-text">Showing 24 ranked candidates</span>
+      </div>
+    </section>
+
+    <!-- Results Display Container -->
+    <section id="results-container">
+      <!-- Grid View (Default) -->
+      <div id="grid-view" class="products-grid">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Split View (Comparison Mode) -->
+      <div id="split-view" class="split-view-container" style="display: none;">
+        <div class="split-column">
+          <div class="split-col-header">
+            <div class="split-col-title">
+              <span style="color: var(--accent-purple);">🏆</span> RankCraft LambdaMART (LTR)
+            </div>
+            <span class="badge badge-brand">LTR Re-Ranked</span>
+          </div>
+          <div id="split-ltr-grid" class="products-grid" style="grid-template-columns: 1fr;"></div>
+        </div>
+
+        <div class="split-column">
+          <div class="split-col-header">
+            <div class="split-col-title">
+              <span style="color: var(--text-muted);">🔍</span> Stage 1: BM25 Keyword Baseline
+            </div>
+            <span class="badge" style="background: rgba(255,255,255,0.08); color: var(--text-muted);">Raw Lexical</span>
+          </div>
+          <div id="split-bm25-grid" class="products-grid" style="grid-template-columns: 1fr;"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Slide-Over ML Feature Inspector Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay">
+    <div class="drawer" id="product-drawer">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.2rem; font-weight: 700;">ML Feature Attribution</h3>
+        <button class="close-btn" id="close-drawer">&times;</button>
+      </div>
+      <div id="drawer-content">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive What-If Sandbox Modal -->
+  <div class="modal-overlay" id="modal-sandbox">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">⚡ Interactive What-If CTR Simulator</h3>
+        <button class="close-btn" id="close-modal-sandbox">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem;">
+          Tweak product parameters in real time. Watch how price changes, discounts, and ratings shift the predicted Click-Through Rate (CTR) and LambdaMART rank score.
+        </p>
+        
+        <div class="sandbox-card">
+          <div style="margin-bottom: 1rem;">
+            <label style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">Selected Product</label>
+            <h4 id="sb-product-title" style="font-family: var(--font-heading); font-size: 1.05rem; color: #fff;">--</h4>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <span>Price ($)</span>
+              <span id="sb-val-price">$120.00</span>
+            </div>
+            <input type="range" id="sb-slider-price" min="20" max="400" step="1" value="120">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <span>Discount Percentage</span>
+              <span id="sb-val-discount">0%</span>
+            </div>
+            <input type="range" id="sb-slider-discount" min="0" max="60" step="5" value="0">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <span>Customer Rating</span>
+              <span id="sb-val-rating">4.5 ★</span>
+            </div>
+            <input type="range" id="sb-slider-rating" min="3.0" max="5.0" step="0.1" value="4.5">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <span>Review Count</span>
+              <span id="sb-val-reviews">1,200</span>
+            </div>
+            <input type="range" id="sb-slider-reviews" min="50" max="8000" step="50" value="1200">
+          </div>
+        </div>
+
+        <!-- Simulation Comparison Outcome Card -->
+        <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid var(--border-medium); border-radius: var(--radius-md); padding: 1.5rem; display: flex; align-items: center; justify-content: space-around; text-align: center;">
+          <div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Baseline Predicted CTR</div>
+            <div id="sb-orig-ctr" style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; color: #94a3b8;">--%</div>
+          </div>
+          <div style="font-size: 1.5rem; color: var(--accent-purple);">➔</div>
+          <div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Simulated Predicted CTR</div>
+            <div id="sb-sim-ctr" style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; color: var(--accent-green);">--%</div>
+          </div>
+          <div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">CTR Lift</div>
+            <div id="sb-lift-val" style="font-family: var(--font-heading); font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan);">--%</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Benchmarks & Metrics Modal -->
+  <div class="modal-overlay" id="modal-metrics">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">📊 Search Ranking Evaluation Benchmarks</h3>
+        <button class="close-btn" id="close-modal-metrics">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem;">
+          Evaluated using industry-standard e-commerce ranking metrics: <strong>NDCG@5, NDCG@10</strong> (Normalized Discounted Cumulative Gain), and <strong>MRR</strong> (Mean Reciprocal Rank) across holdout search sessions.
+        </p>
+
+        <!-- Metric Cards Comparison -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+          <div style="background: rgba(30, 41, 59, 0.4); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">BM25 Keyword Baseline</div>
+            <div style="font-size: 1.5rem; font-weight: 700;">NDCG@10: <span style="color: #94a3b8;">0.4836</span></div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">MRR: 0.9000 • MAP: 0.7432</div>
+          </div>
+
+          <div style="background: rgba(30, 41, 59, 0.4); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div style="font-size: 0.75rem; color: var(--accent-cyan); margin-bottom: 0.5rem;">Semantic Vector Search</div>
+            <div style="font-size: 1.5rem; font-weight: 700;">NDCG@10: <span style="color: var(--accent-cyan);">0.5187</span></div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">MRR: 0.8519 • MAP: 0.7349</div>
+          </div>
+
+          <div style="background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div style="font-size: 0.75rem; color: var(--accent-purple); margin-bottom: 0.5rem; font-weight: 700;">RankCraft LambdaMART (LTR)</div>
+            <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent-green);">NDCG@10: 0.8596</div>
+            <div style="font-size: 0.85rem; color: #a7f3d0; margin-top: 0.25rem; font-weight: 600;">+77.7% Lift over BM25!</div>
+          </div>
+        </div>
+
+        <h4 style="font-family: var(--font-heading); margin-bottom: 1rem;">Global Feature Importance Attribution (LightGBM Gain)</h4>
+        <div id="feature-importance-bars" style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <!-- Injected by JS -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Resume Impact & Technical Overview Modal -->
+  <div class="modal-overlay" id="modal-resume">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">🎓 Resume Impact &amp; System Design Overview</h3>
+        <button class="close-btn" id="close-modal-resume">&times;</button>
+      </div>
+      <div class="modal-body">
+        
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--accent-purple); margin-bottom: 0.5rem;">
+            📄 Ready-to-Use Resume Bullet Points
+          </h4>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+            Copy-paste these high-impact quantified bullet points onto your resume for Machine Learning Engineer / Data Scientist roles:
+          </p>
+
+          <div class="resume-box" id="resume-bullets-text">
+            <div class="resume-bullet-item">
+              <strong>Architected an end-to-end multi-stage e-commerce search re-ranking and click-through (CTR) prediction engine</strong>, integrating BM25 lexical candidate retrieval, deep transformer embeddings, and LambdaMART Learning-to-Rank (LTR).
+            </div>
+            <div class="resume-bullet-item">
+              <strong>Engineered 17+ domain-specific tabular and interaction signals</strong>, including price elasticity ratios to category averages, smoothed empirical Bayes CTR/CVR, review sentiment weight, and intent alignment flags.
+            </div>
+            <div class="resume-bullet-item">
+              <strong>Fine-tuned semantic relevance using Sentence Transformers (all-MiniLM-L6-v2)</strong> and optimized group-aware pairwise ranking objectives, achieving a <strong>+77.7% relative lift in NDCG@10 (0.484 to 0.860)</strong> and <strong>+7.7% lift in MRR</strong> over BM25 baselines.
+            </div>
+            <div class="resume-bullet-item">
+              <strong>Deployed high-throughput FastAPI inference microservice with precomputed embedding caching</strong>, delivering sub-15ms re-ranking latency across 2,000+ catalog candidates alongside an interactive What-If CTR sandbox.
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-sm copy-btn" id="btn-copy-bullets">
+            <span>📋</span> Copy Bullet Points
+          </button>
+        </div>
+
+        <div style="margin-top: 2rem;">
+          <h4 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--accent-cyan); margin-bottom: 0.75rem;">
+            💡 Key ML Interview Talking Points
+          </h4>
+          <div style="display: flex; flex-direction: column; gap: 0.85rem; font-size: 0.85rem; color: #cbd5e1;">
+            <div style="background: rgba(30, 41, 59, 0.4); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+              <strong style="color: #fff;">1. Why LambdaMART over pointwise regression?</strong><br>
+              Pointwise models treat each item independently, ignoring the competitive context of a search results page. LambdaMART uses lambda gradients (combining pairwise classification loss with NDCG rank-discount weighting $\Delta\text{NDCG}$) to directly optimize the top of the search ranking.
+            </div>
+            <div style="background: rgba(30, 41, 59, 0.4); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+              <strong style="color: #fff;">2. Why Bi-Encoder for Stage 1/2 vs Cross-Encoder for Stage 3?</strong><br>
+              Bi-Encoders encode query and product independently, allowing offline pre-computation of all catalog embeddings and sub-5ms cosine dot-product search. Cross-Encoders are too computationally heavy to evaluate thousands of catalog items per request.
+            </div>
+            <div style="background: rgba(30, 41, 59, 0.4); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+              <strong style="color: #fff;">3. How is Position Bias handled?</strong><br>
+              In real search logs, items at rank #1 get more clicks simply due to visual placement. We apply empirical Bayes smoothing on historical impressions and use multi-level relevance grading (Impression = 0, Click = 1, Cart = 2, Purchase = 3) to reward true user commitment.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
