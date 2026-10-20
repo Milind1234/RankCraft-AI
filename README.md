@@ -3,16 +3,18 @@
 # ⚡ RankCraft-AI
 ### E-Commerce Search Query Re-Ranking & Click-Through (CTR) Predictor
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://rankcraft-ai-x9es.onrender.com)
 [![Python 3.11](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.152-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.11-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![ONNX Runtime](https://img.shields.io/badge/ONNX_Runtime-1.31-005CED?style=for-the-badge&logo=onnx&logoColor=white)](https://onnxruntime.ai/)
 [![LightGBM](https://img.shields.io/badge/LightGBM-4.7-brightgreen?style=for-the-badge)](https://lightgbm.readthedocs.io/)
-[![Hugging Face](https://img.shields.io/badge/Deploy-Hugging%20Face%20Spaces-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)](https://huggingface.co/spaces)
 [![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg?style=for-the-badge)](LICENSE)
 
 *An industrial multi-stage search query re-ranking and click-through (CTR) prediction engine mirroring the core search architectures at Amazon and Google.*
 
-[Live Demo](#-free-cloud-deployment-guide) • [Resume Impact & Architecture](RESUME_IMPACT.md) • [Evaluation Benchmarks](#-evaluation-benchmarks) • [Quickstart](#-local-quickstart)
+### [👉 Click Here to Open Live Interactive Demo](https://rankcraft-ai-x9es.onrender.com)
+
+[🚀 Live Demo](https://rankcraft-ai-x9es.onrender.com) • [Resume Impact & Architecture](RESUME_IMPACT.md) • [Evaluation Benchmarks](#-evaluation-benchmarks) • [Quickstart](#-local-quickstart)
 
 </div>
 
@@ -140,9 +142,14 @@ Open **`http://localhost:7860`** in your browser!
 
 ---
 
-## 🌐 100% Free Cloud Deployment Guide
+## 🌐 Live Production Deployment
+The live application is deployed and running 24/7 on Render:
 
-You can deploy RankCraft-AI with zero costs and get a permanent public HTTPS URL to showcase on your portfolio/resume.
+🔗 **[https://rankcraft-ai-x9es.onrender.com](https://rankcraft-ai-x9es.onrender.com)**
+
+---
+
+## 🌐 Cloud Deployment Options
 
 ### Option A: Hugging Face Spaces (Recommended - 100% Free)
 Hugging Face Spaces provides **16 GB RAM + 2 vCPU** for free with persistent URLs:

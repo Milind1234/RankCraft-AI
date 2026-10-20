@@ -1,5 +1,6 @@
 # 🎓 RankCraft-AI: Resume Impact & Technical Interview Guide
 
+> **Live Interactive Demo**: [https://rankcraft-ai-x9es.onrender.com](https://rankcraft-ai-x9es.onrender.com)  
 > **Project Target**: Machine Learning Engineer / Data Scientist / Search & Recommendation Engineer  
 > **Core Architecture**: Multi-Stage Retrieval & Re-Ranking (BM25 ➔ Dense MiniLM Embeddings ➔ LightGBM LambdaMART LTR)
 
